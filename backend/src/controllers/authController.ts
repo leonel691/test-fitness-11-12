@@ -9,6 +9,7 @@ import { generateOtp, hashToken } from "../utils/otp";
 import { sendEmail } from "../services/mailer";
 import { ROLES } from "../config/roles";
 import { AuthRequest } from "../middleware/auth";
+import { logActivity } from "../utils/activityLogger";
 
 const emailSchema = z.string().email();
 const registerSchema = z.object({
@@ -65,6 +66,8 @@ export async function register(req: any, res: Response) {
       otpHash,
       otpExpiresAt,
     });
+
+    await logActivity("user_registered", "Inscription utilisateur", email);
 
     await sendEmail(
       email,
@@ -162,6 +165,7 @@ export async function login(req: any, res: Response) {
     }
 
     const token = signJwt(user._id.toString(), user.role);
+    await logActivity("user_login", "Connexion utilisateur", user.email);
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "lax",

@@ -82,4 +82,19 @@ export const authApi = {
   },
 };
 
+export const adminApi = {
+  getActivities: async () => {
+    const response = await api.get("/admin/activities");
+    return response.data;
+  },
+  getCoaches: async () => {
+    const response = await api.get("/admin/users", { params: { role: "coach" } });
+    return response.data;
+  },
+  createCoach: async (data: { email: string; password: string }) => {
+    const response = await api.post("/admin/coaches", data);
+    return response.data;
+  },
+};
+
 export default api;

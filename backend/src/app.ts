@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes";
 import { env } from "./config/env";
 import { requireAuth, requireRole } from "./middleware/auth";
+import adminRoutes from "./routes/adminRoutes";
 
 export function createApp() {
   const app = express();
@@ -20,6 +21,7 @@ export function createApp() {
   app.get("/health", (_req, res) => res.json({ status: "ok" }));
 
   app.use("/api/auth", authRoutes);
+  app.use("/api/admin", adminRoutes);
 
   app.get("/api/protected", requireAuth, (_req, res) =>
     res.json({ message: "Accès autorisé" })

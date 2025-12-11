@@ -98,6 +98,22 @@ export default function DashboardPage() {
                   Gérez vos informations
                 </p>
               </div>
+              {user?.role === "admin" && (
+                <div className="bg-primary-50 rounded-lg p-6">
+                  <h3 className="font-semibold text-primary-700 mb-2">
+                    Administration
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    Gérer les activités et les coachs
+                  </p>
+                  <Link
+                    href="/admin"
+                    className="mt-3 inline-block text-primary-700 font-medium"
+                  >
+                    Accéder au dashboard admin →
+                  </Link>
+                </div>
+              )}
             </div>
             <div className="mt-8">
               <Link
@@ -113,4 +129,5 @@ export default function DashboardPage() {
     </div>
   );
 }
+
 
