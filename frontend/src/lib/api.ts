@@ -19,6 +19,24 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Intercepteur pour logger les erreurs
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response) {
+      // Le serveur a répondu avec un code d'erreur
+      console.error("Erreur API:", error.response.status, error.response.data);
+    } else if (error.request) {
+      // La requête a été faite mais aucune réponse n'a été reçue
+      console.error("Pas de réponse du serveur:", error.request);
+    } else {
+      // Une erreur s'est produite lors de la configuration de la requête
+      console.error("Erreur de configuration:", error.message);
+    }
+    return Promise.reject(error);
+  }
+);
+
 export interface RegisterData {
   email: string;
   password: string;

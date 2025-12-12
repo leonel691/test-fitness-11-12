@@ -2,16 +2,13 @@ import { env } from "../config/env";
 import { User } from "../models/User";
 import { hashPassword } from "./password";
 
-export async function ensureDefaultAdmin() {
-  const email = env.DEFAULT_ADMIN_EMAIL ?? "leonel@admin";
-  const password = env.DEFAULT_ADMIN_PASSWORD ?? "leonel@admin";
+async function ensureOneAdmin(email: string, password: string) {
+  if (!email || !password) return;
 
-  if (!email || !password) {
-    console.warn("Admin par défaut non créé : email ou mot de passe manquant.");
-    return;
-  }
-
-  const existing = await User.findOne({ email });
+  const emailLower = email.toLowerCase().trim();
+  const passwordHash = await hashPassword(password);
+  const existing = await User.findOne({ email: emailLower });
+  
   if (existing) {
     let updated = false;
     if (existing.role !== "admin") {
@@ -22,22 +19,40 @@ export async function ensureDefaultAdmin() {
       existing.isVerified = true;
       updated = true;
     }
+    // Toujours mettre à jour le mot de passe pour s'assurer qu'il correspond à la config
+    existing.passwordHash = passwordHash;
+    updated = true;
+    
     if (updated) {
       await existing.save();
-      console.log("Admin par défaut synchronisé");
-    } else {
-      console.log("Admin par défaut déjà présent");
+      console.log(`Admin synchronisé : ${emailLower}`);
     }
     return;
   }
 
-  const passwordHash = await hashPassword(password);
   await User.create({
-    email,
+    email: emailLower,
     passwordHash,
     role: "admin",
     isVerified: true,
   });
 
-  console.log(`Admin par défaut créé : ${email}`);
+  console.log(`Admin créé : ${emailLower}`);
+}
+
+export async function ensureDefaultAdmin() {
+  const admins = [
+    {
+      email: env.DEFAULT_ADMIN_EMAIL ?? "leonel@admin",
+      password: env.DEFAULT_ADMIN_PASSWORD ?? "leonel@admin",
+    },
+    {
+      email: env.DEFAULT_ADMIN2_EMAIL ?? "leonelngueaho@gmail.com",
+      password: env.DEFAULT_ADMIN2_PASSWORD ?? "ngueagho",
+    },
+  ];
+
+  for (const admin of admins) {
+    await ensureOneAdmin(admin.email, admin.password);
+  }
 }

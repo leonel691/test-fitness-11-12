@@ -12,8 +12,11 @@ const envSchema = z.object({
   SMTP_PORT: z.coerce.number().optional(),
   SMTP_USER: z.string().optional(),
   SMTP_PASS: z.string().optional(),
-  DEFAULT_ADMIN_EMAIL: z.string().email().optional(),
+  // Permettre des emails non-standard pour les admins (ex: leonel@admin)
+  DEFAULT_ADMIN_EMAIL: z.string().min(1).optional(),
   DEFAULT_ADMIN_PASSWORD: z.string().min(1).optional(),
+  DEFAULT_ADMIN2_EMAIL: z.string().email().optional(),
+  DEFAULT_ADMIN2_PASSWORD: z.string().min(1).optional(),
 });
 
 export const env = envSchema.parse(process.env);
