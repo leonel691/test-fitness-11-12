@@ -16,6 +16,7 @@ export default function CoachingPage() {
       eleves: 150,
       photo:
         "https://images.unsplash.com/photo-1598971639058-99f9d0b5d43f?auto=format&fit=crop&w=400&q=80",
+      
     },
     {
       id: 2,
@@ -84,7 +85,7 @@ export default function CoachingPage() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto mt-[150px]">
           <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">Coaching</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-8">
             Trouvez le coach parfait pour vous accompagner dans votre parcours fitness. Nos coachs certifiés sont là pour vous aider à atteindre vos objectifs.
@@ -225,3 +226,4 @@ export default function CoachingPage() {
     </div>
   );
 }
+

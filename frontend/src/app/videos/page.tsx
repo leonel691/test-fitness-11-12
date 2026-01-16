@@ -123,7 +123,7 @@ export default function VideosPage() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto mt-[150px]">
           <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">Vidéos d'entraînement</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-8">
             Accédez à notre bibliothèque complète de vidéos d'entraînement pour tous les niveaux
@@ -236,3 +236,4 @@ export default function VideosPage() {
     </div>
   );
 }
+

@@ -6,15 +6,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div 
-        className="relative w-full min-h-[80vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
+      <div
+        className="relative w-full min-h-[90vh] flex items-center justify-center bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: "url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
         }}
       >
         {/* Overlay sombre pour améliorer la lisibilité */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-800/70 to-slate-900/80"></div>
-        
+
         {/* Contenu */}
         <div className="relative z-10 w-full container mx-auto px-4 py-24 md:py-32">
           <div className="max-w-4xl mx-auto text-center">
@@ -44,24 +44,26 @@ export default function Home() {
         </div>
       </div>
       {/* rate section */}
-      <div className="flex bg-white border border-gray-200 shadow-sm dark:bg-gray-800/30 dark:border-gray-700 h-[4rem] items-center justify-between rounded-xl p-[2.4rem]">
-        <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">50k+</h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Membres
-          </p>
-        </div>
-        <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">120+</h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Programmes
-          </p>
-        </div>
-        <div className="flex flex-col items-center">
-          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">98%</h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Satisfaction
-          </p>
+      <div className="flex w-screen justify-center">
+        <div className="flex w-[50%] bg-white border border-gray-200 mt-12 shadow-sm dark:bg-gray-800/30 dark:border-gray-700 h-[4rem] items-center justify-between rounded-xl p-[2.4rem]">
+          <div className="flex flex-col items-center">
+            <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">50k+</h1>
+            <p className="text-gray-600 dark:text-gray-300">
+              Membres
+            </p>
+          </div>
+          <div className="flex flex-col items-center">
+            <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">120+</h1>
+            <p className="text-gray-600 dark:text-gray-300">
+              Programmes
+            </p>
+          </div>
+          <div className="flex flex-col items-center">
+            <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">98%</h1>
+            <p className="text-gray-600 dark:text-gray-300">
+              Satisfaction
+            </p>
+          </div>
         </div>
       </div>
 

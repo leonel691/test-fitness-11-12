@@ -66,19 +66,25 @@ export default function Footer() {
           
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
+            {/* <Link
+              href="/contact"
+              className="font-semibold bg-black">
+              Contact
+            </Link> */}
             <ul className="space-y-2 text-sm text-gray-400 dark:text-gray-500">
-              <li>contact@fitapp.com</li>
-              <li>+33 1 23 45 67 89</li>
-              <li>123 Rue du Fitness</li>
-              <li>75001 Paris, France</li>
+              <li><a href="mailto:contact@fitapp.com">contact@fitapp.com </a></li>
+              <li><a href="tel:+237 691161721">+237 691161721</a></li>
+              <li>Universite de yaounde1</li>
+              <li>Yaounde, cameroun</li>
             </ul>
           </div>
         </div>
         
         <div className="border-t border-gray-700 dark:border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400 dark:text-gray-500">
-          <p>&copy; 2024 FitApp. Tous droits réservés.</p>
+          <p>&copy; 2026 FitApp. Tous droits réservés.</p>
         </div>
       </div>
     </footer>
   );
 }
+

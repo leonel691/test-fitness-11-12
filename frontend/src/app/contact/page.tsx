@@ -21,7 +21,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-3xl mx-auto mt-[150px]">
           <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">Nous contacter</h1>
           <p className="text-gray-600 dark:text-gray-300 mb-8">
             Une question ? Une suggestion ? N'hésitez pas à nous écrire !
@@ -98,17 +98,19 @@ export default function ContactPage() {
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
               <div className="text-3xl mb-2">📧</div>
               <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2">Email</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">contact@fitapp.com</p>
+              {/* <p className="text-gray-600 dark:text-gray-300 text-sm">contact@fitapp.com</p> */}
+              <p className="text-gray-600 dark:text-gray-300 text-sm"><a href="mailto:contact@fitapp.com">contact@fitapp.com </a></p>
+
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
               <div className="text-3xl mb-2">📞</div>
               <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2">Téléphone</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">+33 1 23 45 67 89</p>
+              <p className="text-gray-600 dark:text-gray-300 text-sm"><a href="tel:+237 691161721">+237 691161721</a></p>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
               <div className="text-3xl mb-2">📍</div>
               <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2">Adresse</h3>
-              <p className="text-gray-600 dark:text-gray-300 text-sm">123 Rue du Fitness, Paris</p>
+              <p className="text-gray-600 dark:text-gray-300 text-sm">Yaounde , cameroun</p>
             </div>
           </div>
         </div>
@@ -117,3 +119,4 @@ export default function ContactPage() {
     </div>
   );
 }
+
