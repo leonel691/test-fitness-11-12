@@ -19,7 +19,13 @@ const password_1 = require("../utils/password");
 const otp_1 = require("../utils/otp");
 const mailer_1 = require("../services/mailer");
 const roles_1 = require("../config/roles");
+const activityLogger_1 = require("../utils/activityLogger");
 const emailSchema = zod_1.z.string().email();
+// Schema plus permissif pour le login (permet emails non-standard pour admins)
+const loginEmailSchema = zod_1.z.string().min(1).refine((val) => {
+    // Accepter les emails valides OU les formats spéciaux comme "user@domain" (même sans TLD)
+    return zod_1.z.string().email().safeParse(val).success || /^[^\s@]+@[^\s@]+$/.test(val);
+}, { message: "Format d'email invalide" });
 const registerSchema = zod_1.z.object({
     email: emailSchema,
     password: zod_1.z.string().min(8),
@@ -30,7 +36,7 @@ const otpSchema = zod_1.z.object({
     otp: zod_1.z.string().length(6),
 });
 const loginSchema = zod_1.z.object({
-    email: emailSchema,
+    email: loginEmailSchema,
     password: zod_1.z.string(),
 });
 const resetSchema = zod_1.z.object({
@@ -44,13 +50,15 @@ function signJwt(userId, role) {
 async function register(req, res) {
     try {
         const { email, password, role } = registerSchema.parse(req.body);
+        const emailLower = email.toLowerCase().trim();
         if (!(0, password_1.isStrongPassword)(password)) {
             return res.status(400).json({
                 message: "Mot de passe faible. Inclure majuscules, minuscules, chiffre et caractère spécial.",
             });
         }
-        const exists = await User_1.User.findOne({ email });
+        const exists = await User_1.User.findOne({ email: emailLower });
         if (exists) {
+            console.log(`[REGISTER] Utilisateur déjà existant: ${emailLower}`);
             return res.status(409).json({ message: "Utilisateur déjà existant" });
         }
         const passwordHash = await (0, password_1.hashPassword)(password);
@@ -58,13 +66,21 @@ async function register(req, res) {
         const otpHash = (0, otp_1.hashToken)(otpCode);
         const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
         const user = await User_1.User.create({
-            email,
+            email: emailLower,
             passwordHash,
             role: role ?? "user",
             otpHash,
             otpExpiresAt,
         });
-        await (0, mailer_1.sendEmail)(email, "Code de vérification", `Votre code est ${otpCode}. Il expire dans 10 minutes.`);
+        console.log(`[REGISTER] Utilisateur créé: ${emailLower}`);
+        await (0, activityLogger_1.logActivity)("user_registered", "Inscription utilisateur", emailLower);
+        try {
+            await (0, mailer_1.sendEmail)(emailLower, "Code de vérification", `Votre code est ${otpCode}. Il expire dans 10 minutes.`);
+        }
+        catch (emailErr) {
+            console.error(`[REGISTER] Erreur envoi email (non bloquant):`, emailErr);
+            // On continue même si l'email échoue
+        }
         return res.status(201).json({
             message: "Inscription réussie, vérifiez votre OTP envoyé par email",
             devOtp: process.env.NODE_ENV === "development" ? otpCode : undefined,
@@ -73,10 +89,14 @@ async function register(req, res) {
     }
     catch (err) {
         if (err instanceof zod_1.z.ZodError) {
+            console.error(`[REGISTER] Erreur validation:`, err.issues);
             return res.status(400).json({ message: err.issues[0]?.message || "Données invalides" });
         }
-        console.error(err);
-        return res.status(500).json({ message: "Erreur serveur" });
+        console.error(`[REGISTER] Erreur serveur:`, err);
+        return res.status(500).json({
+            message: "Erreur serveur",
+            error: process.env.NODE_ENV === "development" ? String(err) : undefined
+        });
     }
 }
 async function requestOtp(req, res) {
@@ -134,16 +154,22 @@ async function verifyOtp(req, res) {
 async function login(req, res) {
     try {
         const { email, password } = loginSchema.parse(req.body);
-        const user = await User_1.User.findOne({ email });
-        if (!user)
+        const emailLower = email.toLowerCase().trim();
+        const user = await User_1.User.findOne({ email: emailLower });
+        if (!user) {
+            console.log(`[LOGIN] Utilisateur non trouvé: ${emailLower}`);
             return res.status(401).json({ message: "Identifiants invalides" });
+        }
         const valid = await (0, password_1.verifyPassword)(password, user.passwordHash);
-        if (!valid)
+        if (!valid) {
+            console.log(`[LOGIN] Mot de passe invalide pour: ${emailLower}`);
             return res.status(401).json({ message: "Identifiants invalides" });
+        }
         if (!user.isVerified) {
             return res.status(403).json({ message: "Compte non vérifié" });
         }
         const token = signJwt(user._id.toString(), user.role);
+        await (0, activityLogger_1.logActivity)("user_login", "Connexion utilisateur", user.email);
         res.cookie("token", token, {
             httpOnly: true,
             sameSite: "lax",

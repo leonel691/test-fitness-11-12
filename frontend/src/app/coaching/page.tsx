@@ -84,15 +84,32 @@ export default function CoachingPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto mt-[150px]">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">Coaching</h1>
-          <p className="text-gray-600 dark:text-gray-300 mb-8">
+      {/* Hero Section avec image motivante */}
+      <div 
+        className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
+        }}
+      >
+        {/* Overlay sombre pour améliorer la lisibilité */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-800/60 to-slate-900/70"></div>
+        
+        {/* Contenu hero */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 drop-shadow-lg">
+            Coaching
+          </h1>
+          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto drop-shadow-md">
             Trouvez le coach parfait pour vous accompagner dans votre parcours fitness. Nos coachs certifiés sont là pour vous aider à atteindre vos objectifs.
           </p>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-6 sm:py-8 md:py-12">
+        <div className="max-w-6xl mx-auto">
 
           {/* Filtres par catégorie */}
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-6 md:mb-8">
             {categories.map((cat) => (
               <button
                 key={cat}
@@ -114,21 +131,21 @@ export default function CoachingPage() {
               categoryCoachs.length > 0 && (
                 <div key={category} className="mb-12">
                   <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">{category}</h2>
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid sm:grid-cols-2 gap-4 md:gap-6">
                     {categoryCoachs.map((coach) => (
                       <div
                         key={coach.id}
-                        className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+                        className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-shadow"
                       >
-                        <div className="flex items-start gap-4">
+                        <div className="flex items-start gap-3 sm:gap-4">
                           <img
                             src={coach.photo}
                             alt={coach.nom}
-                            className="w-20 h-20 rounded-full object-cover flex-shrink-0"
+                            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover flex-shrink-0"
                           />
-                          <div className="flex-1">
-                            <div className="flex items-center justify-between mb-2">
-                              <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                              <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100 truncate">
                                 {coach.nom}
                               </h3>
                               <div className="flex items-center gap-1">
@@ -147,7 +164,7 @@ export default function CoachingPage() {
                             </p>
                             <Link
                               href="/signin"
-                              className="inline-block px-6 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
+                              className="inline-block px-4 py-2 sm:px-6 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors text-sm sm:text-base"
                             >
                               Contacter
                             </Link>
@@ -160,23 +177,23 @@ export default function CoachingPage() {
               )
             ))
           ) : (
-            <div className="grid md:grid-cols-2 gap-6 mb-12">
+            <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-12">
               {coachs
                 .filter((c) => c.specialite === selectedCategory)
                 .map((coach) => (
                   <div
                     key={coach.id}
-                    className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-shadow"
                   >
-                    <div className="flex items-start gap-4">
+                    <div className="flex items-start gap-3 sm:gap-4">
                       <img
                         src={coach.photo}
                         alt={coach.nom}
-                        className="w-20 h-20 rounded-full object-cover flex-shrink-0"
+                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover flex-shrink-0"
                       />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
+                          <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100 truncate">
                             {coach.nom}
                           </h3>
                           <div className="flex items-center gap-1">
@@ -184,18 +201,18 @@ export default function CoachingPage() {
                             <span className="text-sm font-medium text-gray-800 dark:text-gray-100">{coach.note}</span>
                           </div>
                         </div>
-                        <p className="text-gray-600 dark:text-gray-300 mb-2">
+                        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-2">
                           <span className="font-medium">Spécialité:</span> {coach.specialite}
                         </p>
-                        <p className="text-gray-600 dark:text-gray-300 mb-2">
+                        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-2">
                           <span className="font-medium">Expérience:</span> {coach.experience}
                         </p>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
+                        <p className="text-gray-600 dark:text-gray-300 mb-4 text-xs sm:text-sm">
                           <span className="font-medium">{coach.eleves} élèves</span> actifs
                         </p>
                         <Link
                           href="/signin"
-                          className="inline-block px-6 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
+                          className="inline-block px-4 py-2 sm:px-6 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors text-sm sm:text-base"
                         >
                           Contacter
                         </Link>
@@ -206,16 +223,16 @@ export default function CoachingPage() {
             </div>
           )}
 
-          <div className="bg-primary-50 dark:bg-gray-800 rounded-xl p-8 text-center">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+          <div className="bg-primary-50 dark:bg-gray-800 rounded-xl p-6 md:p-8 text-center">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100 mb-3 md:mb-4">
               Vous êtes coach ?
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 md:mb-6">
               Rejoignez notre équipe de coachs experts et partagez votre passion avec notre communauté
             </p>
             <Link
               href="/signin"
-              className="inline-block px-8 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg font-semibold hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
+              className="inline-block px-6 py-2.5 sm:px-8 sm:py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg font-semibold text-sm sm:text-base hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors"
             >
               Devenir coach
             </Link>

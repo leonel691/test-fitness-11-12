@@ -10,6 +10,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const env_1 = require("./config/env");
 const auth_1 = require("./middleware/auth");
+const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 function createApp() {
     const app = (0, express_1.default)();
     app.use((0, cors_1.default)({
@@ -20,6 +21,7 @@ function createApp() {
     app.use((0, cookie_parser_1.default)());
     app.get("/health", (_req, res) => res.json({ status: "ok" }));
     app.use("/api/auth", authRoutes_1.default);
+    app.use("/api/admin", adminRoutes_1.default);
     app.get("/api/protected", auth_1.requireAuth, (_req, res) => res.json({ message: "Accès autorisé" }));
     app.get("/api/admin-only", auth_1.requireAuth, (0, auth_1.requireRole)(["admin"]), (_req, res) => res.json({ message: "Salut admin" }));
     return app;

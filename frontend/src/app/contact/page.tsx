@@ -20,14 +20,31 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="container mx-auto px-4 py-12">
-        <div className="max-w-3xl mx-auto mt-[150px]">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-4">Nous contacter</h1>
-          <p className="text-gray-600 dark:text-gray-300 mb-8">
+      {/* Hero Section avec image motivante */}
+      <div 
+        className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1556761175-b413da4baf72?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')"
+        }}
+      >
+        {/* Overlay sombre pour améliorer la lisibilité */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-800/60 to-slate-900/70"></div>
+        
+        {/* Contenu hero */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 drop-shadow-lg">
+            Nous contacter
+          </h1>
+          <p className="text-base sm:text-lg md:text-xl text-white/90 max-w-2xl mx-auto drop-shadow-md">
             Une question ? Une suggestion ? N'hésitez pas à nous écrire !
           </p>
+        </div>
+      </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+      <div className="container mx-auto px-4 py-6 sm:py-8 md:py-12">
+        <div className="max-w-3xl mx-auto">
+
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="nom" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -94,7 +111,7 @@ export default function ContactPage() {
             </form>
           </div>
 
-          <div className="mt-8 grid md:grid-cols-3 gap-6">
+          <div className="mt-6 md:mt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 text-center">
               <div className="text-3xl mb-2">📧</div>
               <h3 className="font-semibold text-gray-800 dark:text-gray-100 mb-2">Email</h3>
